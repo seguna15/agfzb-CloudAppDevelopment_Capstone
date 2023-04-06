@@ -6,8 +6,7 @@ from requests.auth import HTTPBasicAuth
 from ibm_watson import NaturalLanguageUnderstandingV1
 from ibm_cloud_sdk_core.authenticators import IAMAuthenticator
 from ibm_watson.natural_language_understanding_v1 \
-    import Features, SentimentOptions
-
+    import Features, EntitiesOptions, KeywordsOptions
 
 # Create a `get_request` to make HTTP GET requests
 # e.g., response = requests.get(url, params=params, headers={'Content-Type': 'application/json'},
@@ -163,22 +162,23 @@ def get_dealer_reviews_from_cf(url, **kwargs):
 # - Call get_request() with specified arguments
 # - Get the returned sentiment label such as Positive or Negative
 def analyze_review_sentiments(dealerreview):
-    apikey = '1kDrG_VV1ViTFYEKdu0Zr3QmbfW8bP2yuskwbDCdJ_9Z'
-    url = 'https://api.au-syd.natural-language-understanding.watson.cloud.ibm.com/instances/94155e5c-6cd8-4871-bd56-5e7eb9d08e3d'
-    authenticator = IAMAuthenticator(apikey)
+    
+    authenticator = IAMAuthenticator('1kDrG_VV1ViTFYEKdu0Zr3QmbfW8bP2yuskwbDCdJ_9Z')
     natural_language_understanding = NaturalLanguageUnderstandingV1(
         version='2022-04-07',
         authenticator=authenticator
     )
 
-    natural_language_understanding.set_service_url(url)
+    natural_language_understanding.set_service_url('https://api.au-syd.natural-language-understanding.watson.cloud.ibm.com/instances/94155e5c-6cd8-4871-bd56-5e7eb9d08e3d')
+
+   
 
     response = natural_language_understanding.analyze(
-        text=dealerreview,
-        features=Features(
-            entities=EntitiesOptions(emotion=True, sentiment=True,limit=2), 
-            keywords=KeywordsOptions(emotion=True, sentiment=True,limit=2
-                                ))).get_result()
+    text=dealerreview,
+    features=Features(
+        entities=EntitiesOptions(emotion=True, sentiment=True, limit=2),
+        keywords=KeywordsOptions(emotion=True, sentiment=True,
+                                 limit=2))).get_result()
 
     print(json.dumps(response.result, indent=2))
 
