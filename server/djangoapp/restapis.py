@@ -41,7 +41,15 @@ def get_request(url, **kwargs):
 
 # Create a `post_request` to make HTTP POST requests
 # e.g., response = requests.post(url, params=kwargs, json=payload)
-
+def post_request(url, payload, **kwargs):
+    print(kwargs)
+    print("POST to {} ".format(url))
+    print(payload)
+    response = requests.post(url, params=kwargs, json=payload)
+    status_code = response.status_code
+    print("With status {} ".format(status_code))
+    json_data = json.loads(response.text)
+    return 
 
 # Create a get_dealers_from_cf method to get dealers from a cloud function
 # def get_dealers_from_cf(url, **kwargs):
@@ -168,11 +176,11 @@ def analyze_review_sentiments(dealerreview):
     response = natural_language_understanding.analyze(
         text=dealerreview,
         features=Features(
-            entities=EntitiesOptions(emotion=True, sentiment=True, limit=2),
-            keywords=KeywordsOptions(emotion=True, sentiment=True,
-                                    limit=2))).get_result()
+            entities=EntitiesOptions(emotion=True, sentiment=True,limit=2), 
+            keywords=KeywordsOptions(emotion=True, sentiment=True,limit=2
+                                ))).get_result()
 
-    print(json.dumps(response, indent=2))
+    print(json.dumps(response.result, indent=2))
 
 
 
