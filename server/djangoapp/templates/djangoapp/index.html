@@ -67,6 +67,18 @@
 
     <!--Add a dealer table here -->
     <main>
+        <div>
+            {% for dealer in dealerships %}
+                <ul>
+                    <li>{{dealer.id}}
+                    <li><a href="{% url 'djangoapp:dealer_details' dealer.id %}">{{dealer.full_name}</a></li>
+                    <li>{{dealer.city}}</li>
+                    <li>{{dealer.address}}</li>
+                    <li>{{dealer.zip}}</li>
+                    <li>{{dealer.st}}</li>
+                </ul>
+            {% endfor %}
+            </div>
 
     </main>
 
